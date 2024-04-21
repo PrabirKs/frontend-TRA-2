@@ -9,10 +9,10 @@ const AppProvider = ({children}) => {
   
 
 const [isCollapsed,setIsCollapsed] =useState(false);
-
+const [modalOpen,setModalOpen] = useState(false)
 
   return (
- <Context.Provider value={{isCollapsed,setIsCollapsed}}>
+ <Context.Provider value={{isCollapsed,setIsCollapsed,modalOpen,setModalOpen}}>
         {children}
  </Context.Provider>
   )

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, Space, Upload } from "antd";
 import axios from "axios"; // Import Axios
 import { useState } from "react";
+import { Context } from "../../Context/AppProvider";
 const JobAddForm = () => {
+  const data = useContext(Context);
   const { Option } = Select;
   const formItemLayout = {
     labelCol: {
@@ -42,7 +44,9 @@ const JobAddForm = () => {
       });
       console.log("Form data sent successfully");
       console.log(reponse.data);
-      // You can do further actions here, like showing a success message
+      form.resetFields(); // Reset form fields
+      setFileList([]); // Clear file list
+      data.setModalOpen(false);
     } catch (error) {
       console.error("Error sending form data:", error);
       // Handle error, maybe show an error message to the user
@@ -52,6 +56,7 @@ const JobAddForm = () => {
   const onFileChange = ({ fileList }) => {
     setFileList(fileList);
   };
+  const handleSubmitClick = () => {};
   return (
     <Form
       form={form}
@@ -117,13 +122,23 @@ const JobAddForm = () => {
       </div>
 
       <Form.Item
+        name="selectModel"
+        label="Model"
+        hasFeedback
+        initialValue={'TRA MODEL 1'}
+      >
+        <Select placeholder="Please select a Model">
+          <Option value="TRA MODEL 1">TRA MODEL 1</Option>
+          <Option value="TRA MODEL 2">TRA MODEL 2</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item
         name="select"
-        label="Report"
+        label="Output"
         hasFeedback
         rules={[
           {
-            required: true,
-            message: "Please select your country!",
+            defaultField: "xlsx",
           },
         ]}
       >
@@ -142,7 +157,13 @@ const JobAddForm = () => {
         }}
       >
         <Space className="">
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={() => {
+              handleSubmitClick();
+            }}
+          >
             Create
           </Button>
           <Button htmlType="reset">reset</Button>

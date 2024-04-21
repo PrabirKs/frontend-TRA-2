@@ -4,8 +4,9 @@ import { Table, Button, Space, Modal, Menu } from "antd";
 import { FilterTwoTone } from "@ant-design/icons";
 import axios from "axios";
 
-const Jobs = () => {
+const Files = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 8 });
+  const [dataSource, setDataSource] = useState([]);
 
   const handleTableChange = (pagination) => {
     setPagination(pagination);
@@ -13,19 +14,18 @@ const Jobs = () => {
 
   const { confirm } = Modal;
 
-  const [dataSource, setDataSource] = useState([]);
-
-  const fetchTasks = async () => {
+  const fetchFiles = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/tasks");
+      const response = await axios.get("http://localhost:5000/files");
       setDataSource(response.data);
+      console.log(response.data);
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      console.error("Error fetching files:", error);
     }
   };
 
   useEffect(() => {
-    fetchTasks();
+    fetchFiles();
   }, []);
 
   const columns = [
@@ -35,48 +35,43 @@ const Jobs = () => {
       key: "id",
     },
     {
-      title: "Job Name",
-      dataIndex: "jobname",
-      key: "jobname",
+      title: "File Name",
+      dataIndex: "filename",
+      key: "filename",
+    },
+    {
+      title: "TaskName",
+      dataIndex: "taskname",
+      key: "taskname",
+      //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+      //     <Menu
+      //       onClick={({ key }) => {
+      //         setSelectedKeys([key]);
+      //         confirm();
+      //       }}
+      //       selectedKeys={selectedKeys}
+      //     >
+      //       <Menu.Item key="Pending">Pending</Menu.Item>
+      //       <Menu.Item key="InProgress">In Progress</Menu.Item>
+      //       <Menu.Item key="Completed">Completed</Menu.Item>
+      //     </Menu>
+      //   ),
+      //   onFilter: (value, record) => record.status.includes(value),
+      //   filterIcon: (filtered) => (
+      //     <Button type="link" style={{ padding: 0 }}>
+      //       <FilterTwoTone/>
+      //     </Button>
+      //   ),
+    },
+    {
+        title:"Size",
+        dataIndex: "size",
+        key: "size"
     },
     {
       title: "Creation Date",
       dataIndex: "creation_date",
       key: "creation_date",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
-        <Menu
-          onClick={({ key }) => {
-            setSelectedKeys([key]);
-            confirm();
-          }}
-          selectedKeys={selectedKeys}
-        >
-          <Menu.Item key="Pending">Pending</Menu.Item>
-          <Menu.Item key="InProgress">In Progress</Menu.Item>
-          <Menu.Item key="Completed">Completed</Menu.Item>
-        </Menu>
-      ),
-      onFilter: (value, record) => record.status.includes(value),
-      filterIcon: (filtered) => (
-        <Button type="link" style={{ padding: 0 }}>
-          <FilterTwoTone />
-        </Button>
-      ),
-    },
-    {
-      title: "Output Format",
-      dataIndex: "report_format",
-      key: "report_format",
-    },
-    {
-      title:'Model',
-      dataIndex:"model",
-      key:"model"
     },
     {
       title: "Action",
@@ -93,7 +88,7 @@ const Jobs = () => {
           }}
         >
           <Button
-            className="bg-red-600 text-white"
+            className="bg-red-500 text-white"
             type="danger"
             onClick={() => showDeleteConfirm(record)}
           >
@@ -123,7 +118,7 @@ const Jobs = () => {
   return (
     <Applayout>
       <div className="bg-white p-10">
-        <h2 style={{ textAlign: "center", fontSize: 25 }}>Task List</h2>
+        <h2 style={{ textAlign: "center", fontSize: 20 }}>File List</h2>
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -136,4 +131,4 @@ const Jobs = () => {
   );
 };
 
-export default Jobs;
+export default Files;

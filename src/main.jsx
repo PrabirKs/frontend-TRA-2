@@ -12,7 +12,8 @@ import AppContext from 'antd/es/app/context.js';
 import AppProvider from './Context/AppProvider.jsx';
 import SignUp from './Components/authentication/Signup.jsx';
 import Login from './Components/authentication/Login.jsx';
-import FilePage from './Components/files/FilePage.jsx';
+import Files from './Components/myFiles/Files.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path:'files',
-    element: <FilePage/>
+    element: <Files/>
   }
 ]);
 

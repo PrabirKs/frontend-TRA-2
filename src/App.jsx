@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import banner from "./assets/lab.jpg";
@@ -6,9 +6,10 @@ import { Row, Col, Button, Typography } from "antd";
 import "./App.css";
 import Applayout from "./Applayout";
 import FormModal from "./Components/modal/FormModal";
+import { Context } from "./Context/AppProvider";
 
 function App() {
-  const [count, setCount] = useState(false);
+  const data = useContext(Context);
 
   return (
     <>
@@ -35,7 +36,7 @@ function App() {
                 className="my-10 h-[50px] text-[20px] font-bold"
                 type="primary"
                 onClick={() => {
-                  setCount(!count);
+                  data.setModalOpen(true)
                 }}
               >
                 Create a job
@@ -44,7 +45,7 @@ function App() {
           </Col>
         </div>
 
-        <FormModal open={count} setOpen={setCount} />
+        <FormModal />
       </Applayout>
     </>
   );

@@ -38,10 +38,10 @@ const Applayout = ({ children }) => {
             <Link to="/">Home</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<DashboardOutlined />}>
-            <Link to="/jobs">Task Dashboard</Link>
+            <Link to="/jobs">JOb Dashboard</Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<FileOutlined />}>
-            <Link to="/">My Files</Link>
+            <Link to="/files">My Files</Link>
           </Menu.Item>
 
           <Menu.Item key="4" icon={<LogoutOutlined />}>
@@ -52,7 +52,7 @@ const Applayout = ({ children }) => {
     } else {
       return (
         <Sider
-          style={""}
+          style={{ backgroundColor: "#FAF9F6", height: "100vh" }}
           collapsible
           theme="light"
           collapsed={data.isCollapsed}
@@ -61,16 +61,19 @@ const Applayout = ({ children }) => {
           }}
         >
           <div className="logo" />
-          <UserInfo userEmail={"demo@gmail.com"} username={"john doe"} />
-          <Menu mode="inline">
+          <UserInfo userEmail={"test@gmail.com"} username={"test name"} />
+          <Menu
+            mode="inline"
+            style={{ backgroundColor: "#FAF9F6" }}
+          >
             <Menu.Item key="1" icon={<HomeOutlined />}>
               <Link to="/">Home</Link>
             </Menu.Item>
             <Menu.Item key="2" icon={<DashboardOutlined />}>
-              <Link to="/jobs">Task Dashboard</Link>
+              <Link to="/jobs">Job Dashboard</Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<FileOutlined />}>
-              <Link to="/">My Files</Link>
+              <Link to="/files">My Files</Link>
             </Menu.Item>
 
             <Menu.Item key="4" icon={<LogoutOutlined />}>

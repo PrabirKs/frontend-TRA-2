@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Modal } from "antd";
 import JobAddForm from "../forms/JobAddForm";
 import NewJobTitile from "../NewJobTitile";
-const FormModal = ({open,setOpen}) => {
-  // const [open, setOpen] = useState(false);
+import { Context } from "../../Context/AppProvider";
+const FormModal = () => {
+  const data = useContext(Context);
   return (
     <>
     
@@ -11,9 +12,9 @@ const FormModal = ({open,setOpen}) => {
        
         title={<NewJobTitile/>}
         centered
-        open={open}
-        onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
+        open={data.modalOpen}
+        onOk={() => data.setModalOpen(false)}
+        onCancel={() => data.setModalOpen(false)}
         width={1000}
         footer={null}
       >
