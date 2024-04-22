@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Applayout from "../../Applayout";
 import { Table, Button, Space, Modal, Menu } from "antd";
-import { FilterTwoTone } from "@ant-design/icons";
+import { DeleteOutlined, FilterTwoTone } from "@ant-design/icons";
 import axios from "axios";
 
 const Files = () => {
@@ -35,14 +35,14 @@ const Files = () => {
       key: "id",
     },
     {
-      title: "File Name",
+      title: "FILE NAME",
       dataIndex: "filename",
       key: "filename",
     },
     {
-      title: "TaskName",
-      dataIndex: "taskname",
-      key: "taskname",
+      title: "JOB NAME",
+      dataIndex: "jobname",
+      key: "jobname",
       //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
       //     <Menu
       //       onClick={({ key }) => {
@@ -64,17 +64,17 @@ const Files = () => {
       //   ),
     },
     {
-        title:"Size",
+        title:"SIZE",
         dataIndex: "size",
         key: "size"
     },
     {
-      title: "Creation Date",
+      title: "CREATION DATE",
       dataIndex: "creation_date",
       key: "creation_date",
     },
     {
-      title: "Action",
+      title: "ACTION",
       align: "right",
       key: "action",
       render: (text, record) => (
@@ -88,11 +88,10 @@ const Files = () => {
           }}
         >
           <Button
-            className="bg-red-500 text-white"
             type="danger"
             onClick={() => showDeleteConfirm(record)}
           >
-            Delete
+             <DeleteOutlined style={{color:"red", fontSize: "20px" }} className="hover:scale-125 hover:filter: contrast(10)"/>
           </Button>
         </Space>
       ),
@@ -102,7 +101,7 @@ const Files = () => {
   const showDeleteConfirm = (record) => {
     confirm({
       title: "Are you sure you want to delete this task?",
-      content: `Task ID: ${record.id}, Task Name: ${record.taskname}`,
+      content: `File Name: ${record.jobname}`,
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
@@ -117,7 +116,7 @@ const Files = () => {
 
   return (
     <Applayout>
-      <div className="bg-white p-10">
+      <div className="bg-white p-10 h-screen">
         <h2 style={{ textAlign: "center", fontSize: 20 }}>File List</h2>
         <Table
           dataSource={dataSource}

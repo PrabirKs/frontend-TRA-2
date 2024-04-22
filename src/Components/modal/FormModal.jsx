@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Button, Modal } from "antd";
 import JobAddForm from "../forms/JobAddForm";
-import NewJobTitile from "../NewJobTitile";
+import NewJobTitile from "./NewJobTitile";
 import { Context } from "../../Context/AppProvider";
 const FormModal = () => {
   const data = useContext(Context);
@@ -18,7 +18,7 @@ const FormModal = () => {
         width={1000}
         footer={null}
       >
-        <div className="bg-blue-50 h-[80vh] job-add-form-container w-full flex justify-center  ">
+        <div className="bg-sky-100 h-[80vh] job-add-form-container w-full flex justify-center  ">
           <JobAddForm/>
         </div>
       </Modal>

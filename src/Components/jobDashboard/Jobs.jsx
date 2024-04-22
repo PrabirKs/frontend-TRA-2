@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Applayout from "../../Applayout";
-import { Table, Button, Space, Modal, Menu } from "antd";
-import { FilterTwoTone } from "@ant-design/icons";
+import { Table, Button, Space, Modal, Menu, Tag } from "antd";
+import { DeleteOutlined, FilterTwoTone, StopOutlined } from "@ant-design/icons";
 import axios from "axios";
+import getStatusColor from "../../utils/getStatusColor";
 
 const Jobs = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 8 });
@@ -35,19 +36,29 @@ const Jobs = () => {
       key: "id",
     },
     {
-      title: "Job Name",
+      title: "JOB NAME",
       dataIndex: "jobname",
       key: "jobname",
     },
     {
-      title: "Creation Date",
+      title: "CREATION DATE",
       dataIndex: "creation_date",
       key: "creation_date",
     },
     {
-      title: "Status",
+      title: "STATUS",
       dataIndex: "status",
       key: "status",
+      render: (_, {status}) => {
+        let color = getStatusColor(status);
+        return (
+          <>
+            <Tag color={color} key={status}>
+              {status.toString().toUpperCase()}
+            </Tag>
+          </>
+        );
+      },
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
         <Menu
           onClick={({ key }) => {
@@ -57,29 +68,29 @@ const Jobs = () => {
           selectedKeys={selectedKeys}
         >
           <Menu.Item key="Pending">Pending</Menu.Item>
-          <Menu.Item key="InProgress">In Progress</Menu.Item>
+          <Menu.Item key="Progress">Progress</Menu.Item>
           <Menu.Item key="Completed">Completed</Menu.Item>
         </Menu>
       ),
       onFilter: (value, record) => record.status.includes(value),
       filterIcon: (filtered) => (
-        <Button type="link" style={{ padding: 0 }}>
+        <Button type="link" className="p-0 mt-[-7px]">
           <FilterTwoTone />
         </Button>
       ),
     },
     {
-      title: "Output Format",
+      title: "OUTPUT FORMAT",
       dataIndex: "report_format",
       key: "report_format",
     },
     {
-      title:'Model',
-      dataIndex:"model",
-      key:"model"
+      title: "MODEL",
+      dataIndex: "model",
+      key: "model",
     },
     {
-      title: "Action",
+      title: "ACTION",
       align: "right",
       key: "action",
       render: (text, record) => (
@@ -93,11 +104,14 @@ const Jobs = () => {
           }}
         >
           <Button
-            className="bg-red-600 text-white"
+            className=""
             type="danger"
             onClick={() => showDeleteConfirm(record)}
           >
-            Delete
+            <StopOutlined 
+              style={{ color: "red", fontSize: "20px" }}
+              className="hover:scale-125"
+            />
           </Button>
         </Space>
       ),
@@ -106,8 +120,8 @@ const Jobs = () => {
 
   const showDeleteConfirm = (record) => {
     confirm({
-      title: "Are you sure you want to delete this task?",
-      content: `Task ID: ${record.id}, Task Name: ${record.taskname}`,
+      title: "Are you sure you want to STOP this task?",
+      content: `Task Name: ${record.jobname}`,
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
@@ -122,8 +136,8 @@ const Jobs = () => {
 
   return (
     <Applayout>
-      <div className="bg-white p-10">
-        <h2 style={{ textAlign: "center", fontSize: 25 }}>Task List</h2>
+      <div className="bg-white p-10 h-screen" style={{}}>
+        <h2 style={{ textAlign: "center", fontSize: 25 }}>Job List</h2>
         <Table
           dataSource={dataSource}
           columns={columns}

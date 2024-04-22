@@ -60,7 +60,7 @@ const JobAddForm = () => {
   return (
     <Form
       form={form}
-      className="flex flex-col w-full mt-10"
+      className="flex flex-col w-full mt-10 p-5 pt-0"
       name="validate_other"
       {...formItemLayout}
       onFinish={onFinish}
@@ -77,18 +77,18 @@ const JobAddForm = () => {
       <Form.Item
         {...formItemLayout}
         name="TaskName"
-        label="Task Name"
+        label="Job Name"
         rules={[
           {
             required: true,
-            message: "Please write Task Name",
+            message: "Please write a Job Name",
           },
         ]}
       >
-        <Input placeholder="Please write Task Name" />
+        <Input placeholder="Please Write a Job Name" />
       </Form.Item>
 
-      <div className="file-upload-container overflow-y-auto">
+      <div className="file-upload-container">
         <Form.Item label="Files">
           <Form.Item
             name="dragger"
@@ -125,7 +125,7 @@ const JobAddForm = () => {
         name="selectModel"
         label="Model"
         hasFeedback
-        initialValue={'TRA MODEL 1'}
+        initialValue={"TRA MODEL 1"}
       >
         <Select placeholder="Please select a Model">
           <Option value="TRA MODEL 1">TRA MODEL 1</Option>
@@ -153,10 +153,11 @@ const JobAddForm = () => {
       <Form.Item
         wrapperCol={{
           span: 12,
-          offset: 6,
+          offset: 16,
         }}
       >
-        <Space className="">
+        <Space className="ml-4">
+          <Button htmlType="reset">reset</Button>
           <Button
             type="primary"
             htmlType="submit"
@@ -166,7 +167,6 @@ const JobAddForm = () => {
           >
             Create
           </Button>
-          <Button htmlType="reset">reset</Button>
         </Space>
       </Form.Item>
     </Form>

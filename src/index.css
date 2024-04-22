@@ -17,3 +17,12 @@
 .banner-image{
     
 }
+.ant-menu-item-selected{
+  color: black !important;
+}
+.ant-layout-sider-trigger{
+  background-color: rgb(83, 155, 248) !important;
+  color: white !important;
+  font-size: 25px;
+  font-weight: bolder;
+}

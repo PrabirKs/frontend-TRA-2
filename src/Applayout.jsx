@@ -33,26 +33,29 @@ const Applayout = ({ children }) => {
   const renderSidebarOrNavbar = () => {
     if (isMobile) {
       return (
-        <Menu mode="horizontal">
-          <Menu.Item key="1" icon={<HomeOutlined />}>
-            <Link to="/">Home</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<DashboardOutlined />}>
-            <Link to="/jobs">JOb Dashboard</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<FileOutlined />}>
-            <Link to="/files">My Files</Link>
-          </Menu.Item>
+        <Menu
+            mode="horizontal"
+            style={{ backgroundColor: "#1677ff", color: "white"}}
+          >
+            <Menu.Item style={{color:"white"}}  key="1" icon={<HomeOutlined />}>
+              <Link to="/">Home</Link>
+            </Menu.Item>
+            <Menu.Item style={{color:"white"}} key="2" icon={<DashboardOutlined />}>
+              <Link to="/jobs">Job Dashboard</Link>
+            </Menu.Item>
+            <Menu.Item style={{color:"white"}} key="3" icon={<FileOutlined />}>
+              <Link to="/files">My Files</Link>
+            </Menu.Item>
 
-          <Menu.Item key="4" icon={<LogoutOutlined />}>
-            <Link to="/">Sign Out</Link>
-          </Menu.Item>
-        </Menu>
+            <Menu.Item style={{color:"white"}} key="4" icon={<LogoutOutlined />}>
+              <Link to="/">Sign Out</Link>
+            </Menu.Item>
+          </Menu>
       );
     } else {
       return (
         <Sider
-          style={{ backgroundColor: "#FAF9F6", height: "100vh" }}
+          style={{ backgroundColor: "#1677ff", height: "100vh"}}
           collapsible
           theme="light"
           collapsed={data.isCollapsed}
@@ -61,22 +64,22 @@ const Applayout = ({ children }) => {
           }}
         >
           <div className="logo" />
-          <UserInfo userEmail={"test@gmail.com"} username={"test name"} />
+          <UserInfo userEmail={"Test@gmail.com"} username={"Test Name"} />
           <Menu
             mode="inline"
-            style={{ backgroundColor: "#FAF9F6" }}
+            style={{ backgroundColor: "#1677ff", color: "white"}}
           >
-            <Menu.Item key="1" icon={<HomeOutlined />}>
+            <Menu.Item style={{color:"white"}}  key="1" icon={<HomeOutlined />}>
               <Link to="/">Home</Link>
             </Menu.Item>
-            <Menu.Item key="2" icon={<DashboardOutlined />}>
+            <Menu.Item style={{color:"white"}} key="2" icon={<DashboardOutlined />}>
               <Link to="/jobs">Job Dashboard</Link>
             </Menu.Item>
-            <Menu.Item key="3" icon={<FileOutlined />}>
+            <Menu.Item style={{color:"white"}} key="3" icon={<FileOutlined />}>
               <Link to="/files">My Files</Link>
             </Menu.Item>
 
-            <Menu.Item key="4" icon={<LogoutOutlined />}>
+            <Menu.Item style={{color:"white"}} key="4" icon={<LogoutOutlined />}>
               <Link to="/">Sign Out</Link>
             </Menu.Item>
           </Menu>

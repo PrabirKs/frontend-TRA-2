@@ -18,7 +18,7 @@ function App() {
           <Col justify="center" align="middle" style={{ height: "80vh" }}>
             <Col>
               {/* Render your HeroImage component here */}
-              <img className="banner-image opacity-75 absolute h-screen object-cover" src={banner} />
+              <img className="banner-image  absolute h-screen w-screen object-cover" src={banner} />
             </Col>
             <Col className="h-full flex items-center flex-col justify-center">
               <div className="mb-10">
@@ -39,7 +39,7 @@ function App() {
                   data.setModalOpen(true)
                 }}
               >
-                Create a job
+                Create a Job
               </Button>
             </Col>
           </Col>
