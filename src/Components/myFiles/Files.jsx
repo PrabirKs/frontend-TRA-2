@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Applayout from "../../Applayout";
-import { Table, Button, Space, Modal, Menu } from "antd";
-import { DeleteOutlined, FilterTwoTone } from "@ant-design/icons";
+import { Table, Button, Space, Modal } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 const Files = () => {
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 8 });
   const [dataSource, setDataSource] = useState([]);
-
-  const handleTableChange = (pagination) => {
-    setPagination(pagination);
-  };
 
   const { confirm } = Modal;
 
   const fetchFiles = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/files");
+      const response = await axios.get("http://localhost:8070/files", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
       setDataSource(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching files:", error);
     }
@@ -36,37 +34,18 @@ const Files = () => {
     },
     {
       title: "FILE NAME",
-      dataIndex: "filename",
-      key: "filename",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "JOB NAME",
       dataIndex: "jobname",
       key: "jobname",
-      //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
-      //     <Menu
-      //       onClick={({ key }) => {
-      //         setSelectedKeys([key]);
-      //         confirm();
-      //       }}
-      //       selectedKeys={selectedKeys}
-      //     >
-      //       <Menu.Item key="Pending">Pending</Menu.Item>
-      //       <Menu.Item key="InProgress">In Progress</Menu.Item>
-      //       <Menu.Item key="Completed">Completed</Menu.Item>
-      //     </Menu>
-      //   ),
-      //   onFilter: (value, record) => record.status.includes(value),
-      //   filterIcon: (filtered) => (
-      //     <Button type="link" style={{ padding: 0 }}>
-      //       <FilterTwoTone/>
-      //     </Button>
-      //   ),
     },
     {
-        title:"SIZE",
-        dataIndex: "size",
-        key: "size"
+      title: "SIZE",
+      dataIndex: "size",
+      key: "size",
     },
     {
       title: "CREATION DATE",
@@ -87,11 +66,8 @@ const Files = () => {
             justifyContent: "flex-end",
           }}
         >
-          <Button
-            type="danger"
-            onClick={() => showDeleteConfirm(record)}
-          >
-             <DeleteOutlined style={{color:"red", fontSize: "20px" }} className="hover:scale-125 hover:filter: contrast(10)"/>
+          <Button type="danger" onClick={() => showDeleteConfirm(record)}>
+            <DeleteOutlined style={{ color: "red", fontSize: "20px" }} />
           </Button>
         </Space>
       ),
@@ -100,8 +76,8 @@ const Files = () => {
 
   const showDeleteConfirm = (record) => {
     confirm({
-      title: "Are you sure you want to delete this task?",
-      content: `File Name: ${record.jobname}`,
+      title: "Are you sure you want to delete this file?",
+      content: `File Name: ${record.name}`,
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
@@ -121,9 +97,8 @@ const Files = () => {
         <Table
           dataSource={dataSource}
           columns={columns}
-          pagination={pagination}
-          onChange={handleTableChange}
           rowKey="id"
+          pagination={{ pageSize: 8 }}
         />
       </div>
     </Applayout>

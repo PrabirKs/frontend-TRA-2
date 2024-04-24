@@ -13,8 +13,7 @@ const UserInfo = ({ username, userEmail }) => {
       {
         data.isCollapsed ===false && (
         <div className="ml-1  flex flex-col items-start justify-center">
-          <Typography.Text strong style={{color:"white"}} >{username}</Typography.Text>
-          <Typography.Text style={{color:"white"}} >{userEmail}</Typography.Text>
+          <Typography.Text strong style={{color:"white"}} >{userEmail}</Typography.Text>
         </div>
       ) 
       }

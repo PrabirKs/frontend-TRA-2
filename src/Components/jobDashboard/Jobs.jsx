@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from "react";
 import Applayout from "../../Applayout";
-import { Table, Button, Space, Modal, Menu, Tag } from "antd";
-import { DeleteOutlined, FilterTwoTone, StopOutlined } from "@ant-design/icons";
+import { Table, Tag, Button, Modal, Menu } from "antd";
+import { FilterTwoTone, StopOutlined } from "@ant-design/icons";
 import axios from "axios";
-import getStatusColor from "../../utils/getStatusColor";
+import getStatusColor from '../../Utils/getStatusColor'
+import { useNavigate } from "react-router-dom";
 
 const Jobs = () => {
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 8 });
-
-  const handleTableChange = (pagination) => {
-    setPagination(pagination);
-  };
-
-  const { confirm } = Modal;
-
+  const navigate = useNavigate();
   const [dataSource, setDataSource] = useState([]);
 
-  const fetchTasks = async () => {
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/tasks");
+      const response = await axios.get("http://localhost:8070/jobs", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
       setDataSource(response.data);
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      console.error("Error fetching jobs:", error);
     }
   };
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
 
   const columns = [
     {
@@ -49,14 +47,12 @@ const Jobs = () => {
       title: "STATUS",
       dataIndex: "status",
       key: "status",
-      render: (_, {status}) => {
+      render: (_, { status }) => {
         let color = getStatusColor(status);
         return (
-          <>
-            <Tag color={color} key={status}>
-              {status.toString().toUpperCase()}
-            </Tag>
-          </>
+          <Tag color={color} key={status}>
+            {status.toString().toUpperCase()}
+          </Tag>
         );
       },
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
@@ -94,32 +90,19 @@ const Jobs = () => {
       align: "right",
       key: "action",
       render: (text, record) => (
-        <Space
-          size="large"
-          align="end"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
+        <Button
+          className=""
+          type="danger"
+          onClick={() => showDeleteConfirm(record)}
         >
-          <Button
-            className=""
-            type="danger"
-            onClick={() => showDeleteConfirm(record)}
-          >
-            <StopOutlined 
-              style={{ color: "red", fontSize: "20px" }}
-              className="hover:scale-125"
-            />
-          </Button>
-        </Space>
+          <StopOutlined style={{ color: "red", fontSize: "20px" }} />
+        </Button>
       ),
     },
   ];
 
   const showDeleteConfirm = (record) => {
-    confirm({
+    Modal.confirm({
       title: "Are you sure you want to STOP this task?",
       content: `Task Name: ${record.jobname}`,
       okText: "Yes",
@@ -136,14 +119,13 @@ const Jobs = () => {
 
   return (
     <Applayout>
-      <div className="bg-white p-10 h-screen" style={{}}>
+      <div className="bg-white p-10 h-screen">
         <h2 style={{ textAlign: "center", fontSize: 25 }}>Job List</h2>
         <Table
           dataSource={dataSource}
           columns={columns}
-          pagination={pagination}
-          onChange={handleTableChange}
           rowKey="id"
+          pagination={{ pageSize: 8 }}
         />
       </div>
     </Applayout>

@@ -17,8 +17,11 @@ import Files from './Components/myFiles/Files.jsx';
 
 const router = createBrowserRouter([
   {
- 
-   path:"/",
+    path:"/",
+    element: <Login/>
+   },
+  {
+   path:"/home",
    element: <App/>
   },
   {
@@ -28,10 +31,6 @@ const router = createBrowserRouter([
   {
     path:"/register",
     element: <SignUp/>
-  },
-  {
-    path:'login',
-    element: <Login/>
   },
   {
     path:'files',

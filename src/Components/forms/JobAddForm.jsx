@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Select, Space, Upload } from "antd";
-import axios from "axios"; // Import Axios
+import { InboxOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Select, Space, Upload, message } from "antd";
+import axios from "axios";
 import { useState } from "react";
 import { Context } from "../../Context/AppProvider";
 const JobAddForm = () => {
@@ -37,19 +37,26 @@ const JobAddForm = () => {
         formData.append("files", file.originFileObj);
       });
 
-      const reponse = await axios.post("http://localhost:5000/save", formData, {
+      const reponse = await axios.post("http://localhost:8070/jobs", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
-      console.log("Form data sent successfully");
+      message.success("Job created successfully");
       console.log(reponse.data);
-      form.resetFields(); // Reset form fields
+      form.resetFields(); 
       setFileList([]); // Clear file list
       data.setModalOpen(false);
     } catch (error) {
-      console.error("Error sending form data:", error);
-      // Handle error, maybe show an error message to the user
+      if (error.response && error.response.status === 401) {
+        // Invalid token or not logged in
+        message.error("Please login to create a job");
+        // Redirect to login page or handle as appropriate
+      } else {
+        message.error("Failed to create job. Please try again later.");
+        console.error("Error creating job:", error);
+      }
     }
   };
 
@@ -65,10 +72,8 @@ const JobAddForm = () => {
       {...formItemLayout}
       onFinish={onFinish}
       initialValues={{
-        "input-number": 3,
-        "checkbox-group": ["A", "B"],
-        rate: 3.5,
-        "color-picker": null,
+        selectModel: "TRA MODEL 1",
+        select: "xlsx",
       }}
       style={{
         maxWidth: "100%",
@@ -76,7 +81,7 @@ const JobAddForm = () => {
     >
       <Form.Item
         {...formItemLayout}
-        name="TaskName"
+        name="jobname"
         label="Job Name"
         rules={[
           {
@@ -91,10 +96,16 @@ const JobAddForm = () => {
       <div className="file-upload-container">
         <Form.Item label="Files">
           <Form.Item
-            name="dragger"
+            name="files" //dragger
             valuePropName="fileList"
             getValueFromEvent={normFile}
             noStyle
+            rules={[
+              {
+                required: true,
+                message: "Please upload files",
+              },
+            ]}
           >
             <Upload.Dragger
               name="files"
@@ -125,7 +136,6 @@ const JobAddForm = () => {
         name="selectModel"
         label="Model"
         hasFeedback
-        initialValue={"TRA MODEL 1"}
       >
         <Select placeholder="Please select a Model">
           <Option value="TRA MODEL 1">TRA MODEL 1</Option>
@@ -136,11 +146,6 @@ const JobAddForm = () => {
         name="select"
         label="Output"
         hasFeedback
-        rules={[
-          {
-            defaultField: "xlsx",
-          },
-        ]}
       >
         <Select placeholder="Please select a format for your output report">
           <Option value="csv">CSV</Option>
@@ -156,8 +161,8 @@ const JobAddForm = () => {
           offset: 16,
         }}
       >
-        <Space className="ml-4">
-          <Button htmlType="reset">reset</Button>
+        <Space className="">
+          <Button htmlType="reset">Reset</Button>
           <Button
             type="primary"
             htmlType="submit"

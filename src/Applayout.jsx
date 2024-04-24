@@ -11,10 +11,11 @@ import {
 import UserInfo from "./Components/ui/UserInfoCard";
 import { Context } from "./Context/AppProvider";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Applayout = ({ children }) => {
   const data = useContext(Context);
-
+  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -29,33 +30,58 @@ const Applayout = ({ children }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await axios.post("http://localhost:8070/logout", null, config);
+      // Clear access token from local storage or cookies
+      localStorage.removeItem("access_token");
+      navigate("/")
+      // Redirect the user to the login page or any other page
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
   const renderSidebarOrNavbar = () => {
     if (isMobile) {
       return (
         <Menu
-            mode="horizontal"
-            style={{ backgroundColor: "#1677ff", color: "white"}}
+          mode="horizontal"
+          style={{ backgroundColor: "#1677ff", color: "white" }}
+        >
+          <Menu.Item style={{ color: "white" }} key="1" icon={<HomeOutlined />}>
+            <Link to="/home">Home</Link>
+          </Menu.Item>
+          <Menu.Item
+            style={{ color: "white" }}
+            key="2"
+            icon={<DashboardOutlined />}
           >
-            <Menu.Item style={{color:"white"}}  key="1" icon={<HomeOutlined />}>
-              <Link to="/">Home</Link>
-            </Menu.Item>
-            <Menu.Item style={{color:"white"}} key="2" icon={<DashboardOutlined />}>
-              <Link to="/jobs">Job Dashboard</Link>
-            </Menu.Item>
-            <Menu.Item style={{color:"white"}} key="3" icon={<FileOutlined />}>
-              <Link to="/files">My Files</Link>
-            </Menu.Item>
+            <Link to="/jobs">Job Dashboard</Link>
+          </Menu.Item>
+          <Menu.Item style={{ color: "white" }} key="3" icon={<FileOutlined />}>
+            <Link to="/files">My Files</Link>
+          </Menu.Item>
 
-            <Menu.Item style={{color:"white"}} key="4" icon={<LogoutOutlined />}>
-              <Link to="/">Sign Out</Link>
-            </Menu.Item>
-          </Menu>
+          <Menu.Item
+            style={{ color: "white" }}
+            key="4"
+            icon={<LogoutOutlined />}
+            onClick={() => logout()}
+          >
+            Sign Out
+          </Menu.Item>
+        </Menu>
       );
     } else {
       return (
         <Sider
-          style={{ backgroundColor: "#1677ff", height: "100vh"}}
+          style={{ backgroundColor: "#1677ff", height: "100vh" }}
           collapsible
           theme="light"
           collapsed={data.isCollapsed}
@@ -64,23 +90,40 @@ const Applayout = ({ children }) => {
           }}
         >
           <div className="logo" />
-          <UserInfo userEmail={"Test@gmail.com"} username={"Test Name"} />
+          <UserInfo userEmail={data.user} />
           <Menu
             mode="inline"
-            style={{ backgroundColor: "#1677ff", color: "white"}}
+            style={{ backgroundColor: "#1677ff", color: "white" }}
           >
-            <Menu.Item style={{color:"white"}}  key="1" icon={<HomeOutlined />}>
-              <Link to="/">Home</Link>
+            <Menu.Item
+              style={{ color: "white" }}
+              key="1"
+              icon={<HomeOutlined />}
+            >
+              <Link to="/home">Home</Link>
             </Menu.Item>
-            <Menu.Item style={{color:"white"}} key="2" icon={<DashboardOutlined />}>
+            <Menu.Item
+              style={{ color: "white" }}
+              key="2"
+              icon={<DashboardOutlined />}
+            >
               <Link to="/jobs">Job Dashboard</Link>
             </Menu.Item>
-            <Menu.Item style={{color:"white"}} key="3" icon={<FileOutlined />}>
+            <Menu.Item
+              style={{ color: "white" }}
+              key="3"
+              icon={<FileOutlined />}
+            >
               <Link to="/files">My Files</Link>
             </Menu.Item>
 
-            <Menu.Item style={{color:"white"}} key="4" icon={<LogoutOutlined />}>
-              <Link to="/">Sign Out</Link>
+            <Menu.Item
+              style={{ color: "white" }}
+              key="4"
+              icon={<LogoutOutlined />}
+              onClick={() => logout()}
+            >
+              Sign Out
             </Menu.Item>
           </Menu>
         </Sider>
