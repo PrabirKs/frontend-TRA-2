@@ -2,7 +2,7 @@ function getStatusColor(status) {
     switch (status.toString().toLowerCase()) {
         case 'pending':
             return 'orange';
-        case 'progress':
+        case 'in progress':
             return 'blue';
         case 'completed':
             return 'green';

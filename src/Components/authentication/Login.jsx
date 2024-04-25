@@ -25,6 +25,7 @@ function Login() {
         localStorage.setItem("access_token", data.access_token);
         // Redirect to the desired page (e.g., dashboard)
         context.setUser(data.user);
+        localStorage.setItem("user",data.user)
         navigate("/home");
       } else {
         setError(data.message || "Failed to login");

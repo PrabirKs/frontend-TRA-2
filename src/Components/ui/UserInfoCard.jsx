@@ -3,7 +3,7 @@ import { Row, Col, Avatar, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Context } from '../../Context/AppProvider';
 
-const UserInfo = ({ username, userEmail }) => {
+const UserInfo = ({  userEmail }) => {
     const data = useContext(Context)
   return (
     <Row justify={data.isCollapsed?'center':'start' } align="middle" className={`flex items-center   gap-x-2 mt-6 ${data.isCollapsed?'':'ml-4'}`}>

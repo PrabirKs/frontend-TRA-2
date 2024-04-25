@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import banner from "./assets/lab.jpg";
+import banner from "./assets/lab3.jpg";
 import { Row, Col, Button, Typography } from "antd";
 import "./App.css";
 import Applayout from "./Applayout";
@@ -9,8 +9,11 @@ import FormModal from "./Components/modal/FormModal";
 import { Context } from "./Context/AppProvider";
 
 function App() {
-  const data = useContext(Context);
-
+  const context = useContext(Context);
+  useEffect(() => {
+    const user = localStorage.getItem("user")
+    context.setUser(user) ;
+  },[])
   return (
     <>
       <Applayout>
@@ -18,7 +21,7 @@ function App() {
           <Col justify="center" align="middle" style={{ height: "80vh" }}>
             <Col>
               {/* Render your HeroImage component here */}
-              <img className="banner-image  absolute h-screen w-screen object-cover" src={banner} />
+              <img className="banner-image  absolute h-screen w-screen  object-cover" src={banner} />
             </Col>
             <Col className="h-full flex items-center flex-col justify-center">
               <div className="mb-10">
@@ -36,10 +39,10 @@ function App() {
                 className="my-10 h-[50px] text-[20px] font-bold"
                 type="primary"
                 onClick={() => {
-                  data.setModalOpen(true)
+                  context.setModalOpen(true)
                 }}
               >
-                Create a Job
+                Create A Job
               </Button>
             </Col>
           </Col>

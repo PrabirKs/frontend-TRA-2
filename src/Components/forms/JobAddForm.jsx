@@ -4,7 +4,9 @@ import { Button, Form, Input, Select, Space, Upload, message } from "antd";
 import axios from "axios";
 import { useState } from "react";
 import { Context } from "../../Context/AppProvider";
+import { useNavigate } from "react-router-dom";
 const JobAddForm = () => {
+  const navigate = useNavigate();
   const data = useContext(Context);
   const { Option } = Select;
   const formItemLayout = {
@@ -48,6 +50,7 @@ const JobAddForm = () => {
       form.resetFields(); 
       setFileList([]); // Clear file list
       data.setModalOpen(false);
+      navigate("/jobs")
     } catch (error) {
       if (error.response && error.response.status === 401) {
         // Invalid token or not logged in

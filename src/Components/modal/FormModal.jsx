@@ -15,7 +15,7 @@ const FormModal = () => {
         open={data.modalOpen}
         onOk={() => data.setModalOpen(false)}
         onCancel={() => data.setModalOpen(false)}
-        width={1000}
+        width={700}
         footer={null}
       >
         <div className="bg-sky-100 h-[80vh] job-add-form-container w-full flex justify-center  ">

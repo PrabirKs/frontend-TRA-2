@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Applayout from "../../Applayout";
-import { Table, Button, Space, Modal } from "antd";
+import { Table, Button, Space, Modal, Tooltip } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 
@@ -66,14 +66,36 @@ const Files = () => {
             justifyContent: "flex-end",
           }}
         >
-          <Button type="danger" onClick={() => showDeleteConfirm(record)}>
-            <DeleteOutlined style={{ color: "red", fontSize: "20px" }} />
-          </Button>
+          <Tooltip placement="left" title={"Delete File"} color="red">
+            <Button
+              type="text"
+              onClick={() => showDeleteConfirm(record)}
+              className=""
+            >
+              <DeleteOutlined style={{ color: "red", fontSize: "20px" }} />
+            </Button>
+          </Tooltip>
         </Space>
       ),
     },
   ];
-
+  const deleteFile = async (fileId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8070/files/${fileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+      fetchFiles();
+      Modal.success({ content: response.data.message });
+    } catch (error) {
+      console.error("Error deleting the File:", error);
+      Modal.error({ content: "Failed to delete File" });
+    }
+  };
   const showDeleteConfirm = (record) => {
     confirm({
       title: "Are you sure you want to delete this file?",
@@ -82,7 +104,7 @@ const Files = () => {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        // Handle delete action here
+        deleteFile(record.file_id);
       },
       onCancel() {
         console.log("Cancel");
